@@ -15,8 +15,8 @@ describe AccountLog do
   context 'Account Log' do
     it 'should have attributes equivalent to what was set' do
       date = '2022-08-22 15:18:38.401955 +0100'
-      credit = 1000
-      debit = 0
+      credit = 1000.0
+      debit = 0.0
       account_log = AccountLog.new(date, credit, debit)
       expect(account_log.date).to eq date
       expect(account_log.credit).to eq credit

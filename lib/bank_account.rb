@@ -17,7 +17,7 @@ class BankAccount
   def generate_bank_statement
     bank_statement = @headers.join(' || ')
     sort_account_logs
-    balance = 0
+    balance = 0.0
     @account_logs.each do |account_log|
       balance += account_log.credit - account_log.debit
       bank_statement += generate_line(account_log,
@@ -44,6 +44,6 @@ class BankAccount
 
   def generate_line(account_log, balance)
     date = @time_class.parse(account_log.date).strftime('%d/%m/%Y')
-    "\n#{date} || #{account_log.credit if account_log.credit>0 } || #{account_log.debit if account_log.debit>0} || #{balance}"
+    "\n#{date} || #{'%.2f' % account_log.credit if account_log.credit>0.0 } || #{'%.2f' % account_log.debit if account_log.debit>0.0} || #{'%.2f' % balance}"
   end
 end
