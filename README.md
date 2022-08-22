@@ -6,4 +6,4 @@ There are two classes: BankAccount and AccountLog, AccountLog serves purely as a
 
 A BankAccount instance has two public methods make_transaction() and generate_bank_statement(). The former takes an AccountLog instance and performs light validation of the data and stores the data within the BankAccount instance. generate_bank_statement() reads all the AccountLog that have been stored, sorts the entries and returns a bank statement string where the balance at each entry has been calculated and displayed along with the amount deposited or withdrawn
 
-[alt text](https://github.com/shaunywho/bank_tech_test/blob/main/bank_tech_test.png?raw=true)
+[screenshot](https://github.com/shaunywho/bank_tech_test/blob/main/bank_tech_test.png?raw=true)
