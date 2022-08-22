@@ -3,11 +3,11 @@ describe AccountLog do
 
   context "AccountLog should be readable but not writable after initialization" do
     it "should not have attribute writers associated with its field" do
-      expect(AccountLog.instance_methods(false)).to eq [:date, :credit, :debit]
+      expect(AccountLog.instance_methods(false)).to eq [:credit, :debit, :date]
     end 
 
     it "should have attribute readers associated with its field" do
-      expect(AccountLog.instance_methods - Object.methods).to eq [:date, :credit, :debit]
+      expect(AccountLog.instance_methods - Object.methods).to eq [:credit, :debit, :date]
     end
 
   end 

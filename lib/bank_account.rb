@@ -21,6 +21,7 @@ class BankAccount
   end 
 
   def make_transaction(account_log)
+    # Accepts a AccountLog instance and adds it to the account_logs list
     begin
       date = @time_class.parse(account_log.date)
     rescue ArgumentError
@@ -31,6 +32,7 @@ class BankAccount
     end
   end 
 
+  private
   def sort_account_logs()
     @account_logs.sort_by!{|account_log| @time_class.parse(account_log.date)}
   end 
