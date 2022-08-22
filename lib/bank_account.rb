@@ -15,25 +15,25 @@ class BankAccount
   end
 
   def generate_bank_statement
-    statement = @headers.join(' || ')
+    bank_statement = @headers.join(' || ')
     sort_account_logs
     balance = 0
     @account_logs.each do |account_log|
       balance += account_log.credit - account_log.debit
-      statement += generate_line(account_log,
+      bank_statement += generate_line(account_log,
                                  balance)
     end
-    statement
+    bank_statement
   end
 
   def make_transaction(account_log)
     # Accepts a AccountLog instance and adds it to the account_logs list
     begin
-      date = @time_class.parse(account_log.date)
+      date_valid = @time_class.parse(account_log.date)
     rescue ArgumentError
-      date = false
+      date_valid = false
     end
-    @account_logs << account_log if date && (account_log.credit.is_a? Numeric) && (account_log.debit.is_a? Numeric)
+    @account_logs << account_log if date_valid && (account_log.credit.is_a? Numeric) && (account_log.debit.is_a? Numeric)
   end
 
   private
