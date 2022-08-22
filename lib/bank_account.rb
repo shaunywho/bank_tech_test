@@ -2,7 +2,7 @@ require_relative "./account_log"
 require 'time'
 time_class = Time
 class BankAccount
-  attr_reader :headers, :account_logs
+  attr_reader :account_logs
   def initialize(time_class)
     @account_logs = []
     @headers = ["date", "credit", "debit", "balance"]
