@@ -4,7 +4,7 @@
 class AccountLog
   attr_reader :date, :credit, :debit
 
-  def initialize(date, credit = 0.0, debit = 0.0)
+  def initialize(date, credit, debit)
     @date = date
     @credit = credit
     @debit = debit
