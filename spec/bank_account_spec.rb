@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require 'bank_account'
 require 'time'
 describe BankAccount do
@@ -30,7 +28,7 @@ describe BankAccount do
       expect(Time).to receive(:now).and_return(@time2).ordered
       @bank_account.deposit(1000)
       @bank_account.deposit(200)
-      expect { @bank_account.print_statement }.to output("date || credit || debit || balance\n22/08/2022 || 200.00 ||  || 200.00\n22/08/2022 || 1000.00 ||  || 1200.00").to_stdout
+      expect { @bank_account.print_statement }.to output("date || credit || debit || balance\n22/08/2022 || 200.00 ||  || 1200.00\n22/08/2022 || 1000.00 ||  || 1000.00").to_stdout
     end
 
     it 'returns bank statement containing three entries when three deposits are made' do
@@ -40,7 +38,7 @@ describe BankAccount do
       @bank_account.deposit(1000)
       @bank_account.deposit(200)
       @bank_account.deposit(100)
-      expect { @bank_account.print_statement }.to output("date || credit || debit || balance\n22/08/2022 || 100.00 ||  || 100.00\n22/08/2022 || 200.00 ||  || 300.00\n22/08/2022 || 1000.00 ||  || 1300.00").to_stdout
+      expect { @bank_account.print_statement }.to output("date || credit || debit || balance\n22/08/2022 || 100.00 ||  || 1300.00\n22/08/2022 || 200.00 ||  || 1200.00\n22/08/2022 || 1000.00 ||  || 1000.00").to_stdout
 
 
     end
@@ -50,7 +48,7 @@ describe BankAccount do
       expect(Time).to receive(:now).and_return(@time1).ordered
       @bank_account.deposit(200)
       @bank_account.deposit(1000)
-      expect { @bank_account.print_statement }.to output("date || credit || debit || balance\n22/08/2022 || 200.00 ||  || 200.00\n22/08/2022 || 1000.00 ||  || 1200.00").to_stdout
+      expect { @bank_account.print_statement }.to output("date || credit || debit || balance\n22/08/2022 || 200.00 ||  || 1200.00\n22/08/2022 || 1000.00 ||  || 1000.00").to_stdout
     end
   end
 
@@ -71,7 +69,7 @@ describe BankAccount do
       expect(Time).to receive(:now).and_return(@time2).ordered
       @bank_account.withdraw(1000)
       @bank_account.withdraw(200)
-      expect { @bank_account.print_statement }.to output("date || credit || debit || balance\n22/08/2022 ||  || 200.00 || -200.00\n22/08/2022 ||  || 1000.00 || -1200.00").to_stdout
+      expect { @bank_account.print_statement }.to output("date || credit || debit || balance\n22/08/2022 ||  || 200.00 || -1200.00\n22/08/2022 ||  || 1000.00 || -1000.00").to_stdout
     end
 
     it 'returns bank statement containing a three entries when three withdrawals are made' do
@@ -81,7 +79,7 @@ describe BankAccount do
       @bank_account.withdraw(1000)
       @bank_account.withdraw(200)
       @bank_account.withdraw(100)
-      expect { @bank_account.print_statement }.to output("date || credit || debit || balance\n22/08/2022 ||  || 100.00 || -100.00\n22/08/2022 ||  || 200.00 || -300.00\n22/08/2022 ||  || 1000.00 || -1300.00").to_stdout
+      expect { @bank_account.print_statement }.to output("date || credit || debit || balance\n22/08/2022 ||  || 100.00 || -1300.00\n22/08/2022 ||  || 200.00 || -1200.00\n22/08/2022 ||  || 1000.00 || -1000.00").to_stdout
     end
 
     it 'returns bank statement containing a two entries when two withdrawals are made in the wrong order' do
@@ -89,7 +87,7 @@ describe BankAccount do
       expect(Time).to receive(:now).and_return(@time1).ordered
       @bank_account.withdraw(200)
       @bank_account.withdraw(1000)
-      expect { @bank_account.print_statement }.to output("date || credit || debit || balance\n22/08/2022 ||  || 200.00 || -200.00\n22/08/2022 ||  || 1000.00 || -1200.00").to_stdout
+      expect { @bank_account.print_statement }.to output("date || credit || debit || balance\n22/08/2022 ||  || 200.00 || -1200.00\n22/08/2022 ||  || 1000.00 || -1000.00").to_stdout
     end
   end
 
@@ -107,7 +105,7 @@ describe BankAccount do
       @bank_account.withdraw(1000.0)
       @bank_account.deposit(200.0)
       @bank_account.withdraw(100.0)
-      expect { @bank_account.print_statement }.to output("date || credit || debit || balance\n22/08/2022 ||  || 100.00 || -100.00\n22/08/2022 || 200.00 ||  || 100.00\n22/08/2022 ||  || 1000.00 || -900.00").to_stdout
+      expect { @bank_account.print_statement }.to output("date || credit || debit || balance\n22/08/2022 ||  || 100.00 || -900.00\n22/08/2022 || 200.00 ||  || -800.00\n22/08/2022 ||  || 1000.00 || -1000.00").to_stdout
     end
 
     it 'returns bank statement containing a two entries when a withdrawal and deposit are made in the wrong order with microsecond difference' do
@@ -116,7 +114,7 @@ describe BankAccount do
       expect(Time).to receive(:now).and_return(@time1).ordered
       @bank_account.withdraw(1000)
       @bank_account.deposit(300)
-      expect { @bank_account.print_statement }.to output("date || credit || debit || balance\n22/08/2022 ||  || 1000.00 || -1000.00\n22/08/2022 || 300.00 ||  || -700.00").to_stdout
+      expect { @bank_account.print_statement }.to output("date || credit || debit || balance\n22/08/2022 ||  || 1000.00 || -700.00\n22/08/2022 || 300.00 ||  || 300.00").to_stdout
     end
 
     it 'returns bank statement containing a two entries when two withdrawals in different timezones are made' do
@@ -125,7 +123,7 @@ describe BankAccount do
       expect(Time).to receive(:now).and_return(time1_us_france).ordered
       @bank_account.withdraw(1000)
       @bank_account.deposit(300)
-      expect { @bank_account.print_statement }.to output("date || credit || debit || balance\n22/08/2022 ||  || 1000.00 || -1000.00\n22/08/2022 || 300.00 ||  || -700.00").to_stdout
+      expect { @bank_account.print_statement }.to output("date || credit || debit || balance\n22/08/2022 ||  || 1000.00 || -700.00\n22/08/2022 || 300.00 ||  || 300.00").to_stdout
     end
   end
 
@@ -142,7 +140,7 @@ describe BankAccount do
       @bank_account.deposit(1000)
       @bank_account.deposit(200)
       @bank_account.deposit('A')
-      expect { @bank_account.print_statement }.to output("date || credit || debit || balance\n22/08/2022 || 200.00 ||  || 200.00\n22/08/2022 || 1000.00 ||  || 1200.00").to_stdout
+      expect { @bank_account.print_statement }.to output("date || credit || debit || balance\n22/08/2022 || 200.00 ||  || 1200.00\n22/08/2022 || 1000.00 ||  || 1000.00").to_stdout
     end
 
     it 'returns a bank statement containing two entries when three withdrawals are made but one has a credit amount that is non-numeric' do
@@ -152,7 +150,7 @@ describe BankAccount do
       @bank_account.deposit(1000)
       @bank_account.deposit(200)
       @bank_account.deposit('100')
-      expect { @bank_account.print_statement }.to output("date || credit || debit || balance\n22/08/2022 || 200.00 ||  || 200.00\n22/08/2022 || 1000.00 ||  || 1200.00").to_stdout
+      expect { @bank_account.print_statement }.to output("date || credit || debit || balance\n22/08/2022 || 200.00 ||  || 1200.00\n22/08/2022 || 1000.00 ||  || 1000.00").to_stdout
     end
   end
   context 'When Bank Account is initialized, withdrawals with incorrect data types are rejected' do
@@ -168,7 +166,7 @@ describe BankAccount do
       @bank_account.withdraw(1000)
       @bank_account.withdraw(200)
       @bank_account.withdraw('A')
-      expect { @bank_account.print_statement }.to output("date || credit || debit || balance\n22/08/2022 ||  || 200.00 || -200.00\n22/08/2022 ||  || 1000.00 || -1200.00").to_stdout
+      expect { @bank_account.print_statement }.to output("date || credit || debit || balance\n22/08/2022 ||  || 200.00 || -1200.00\n22/08/2022 ||  || 1000.00 || -1000.00").to_stdout
     end
 
     it 'returns a bank statement containing two entries when three withdrawals are made but one has a credit amount that is non-numeric' do
@@ -178,7 +176,7 @@ describe BankAccount do
       @bank_account.withdraw(1000)
       @bank_account.withdraw(200)
       @bank_account.withdraw('100')
-      expect { @bank_account.print_statement }.to output("date || credit || debit || balance\n22/08/2022 ||  || 200.00 || -200.00\n22/08/2022 ||  || 1000.00 || -1200.00").to_stdout
+      expect { @bank_account.print_statement }.to output("date || credit || debit || balance\n22/08/2022 ||  || 200.00 || -1200.00\n22/08/2022 ||  || 1000.00 || -1000.00").to_stdout
     end
   end
 end

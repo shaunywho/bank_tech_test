@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require 'time'
 
 
@@ -7,19 +5,20 @@ require 'time'
 class BankAccount
   def initialize()
     @transactions = []
-    @headers = %w[date credit debit balance]
+    @headers = ["date || credit || debit || balance"]
   end
 
   def print_statement
-    bank_statement = @headers.join(' || ')
+    # prints statements with most recent transactions first
+    bank_statement = []
     sort_transactions
     balance = 0.0
     @transactions.each do |account_log|
       balance += account_log["credit"] - account_log["debit"]
-      bank_statement += generate_line(account_log,
-                                 balance)
+      bank_statement.append(generate_line(account_log,
+                                 balance))
     end
-    print bank_statement
+    print bank_statement.reverse.prepend(@headers).join("\n")
   end
 
   def deposit(amount)
@@ -42,7 +41,7 @@ class BankAccount
 
   def sort_transactions
     # sorts transactions by date
-    @transactions.sort_by! { |account_log| account_log["date"] }.reverse!
+    @transactions.sort_by! { |account_log| account_log["date"] }
   end
 
   def generate_line(account_log, balance)
@@ -50,6 +49,6 @@ class BankAccount
     date = account_log["date"].strftime('%d/%m/%Y')
     credit = account_log["credit"]>0.0 ? "#{'%.2f' % account_log["credit"]}" : ""
     debit = account_log["debit"]>0.0 ? "#{'%.2f' % account_log["debit"]}" : ""
-    "\n#{date} || #{credit} || #{debit} || #{'%.2f' % balance}"
+    ["#{date} || #{credit} || #{debit} || #{'%.2f' % balance}"]
   end
 end
