@@ -11,7 +11,7 @@ bank_account = BankAccount.new
 bank_account.withdraw(1000)
 bank_account.deposit(200)
 bank_account.withdraw(500)
-bank_account.generate_bank_statement()
+bank_account.print_statement()
 =begin
 => date || credit || debit || balance
 24/08/2022 ||  || 500.00 || -1300.00
