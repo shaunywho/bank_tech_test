@@ -48,6 +48,8 @@ class BankAccount
   def generate_line(account_log, balance)
     # generates a line in the print
     date = account_log["date"].strftime('%d/%m/%Y')
-    "\n#{date} || #{'%.2f' % account_log["credit"] if account_log["credit"]>0.0 } || #{'%.2f' % account_log["debit"] if account_log["debit"]>0.0} || #{'%.2f' % balance}"
+    credit = account_log["credit"]>0.0 ? "#{'%.2f' % account_log["credit"]}" : ""
+    debit = account_log["debit"]>0.0 ? "#{'%.2f' % account_log["debit"]}" : ""
+    "\n#{date} || #{credit} || #{debit} || #{'%.2f' % balance}"
   end
 end
