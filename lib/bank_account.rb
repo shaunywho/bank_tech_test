@@ -1,49 +1,53 @@
 # frozen_string_literal: true
 
-require_relative './account_log'
 require 'time'
 
-# Stores AccountLog instances with the make_transaction() method
-# Display them as a sorted bank statement using generate_bank_statement()
-class BankAccount
-  attr_reader :account_logs
 
-  def initialize(time_class)
-    @account_logs = []
+# BankAccount object is used with the deposit, withdraw and print_statement methods
+class BankAccount
+  def initialize()
+    @transactions = []
     @headers = %w[date credit debit balance]
-    @time_class = time_class
   end
 
-  def generate_bank_statement
+  def print_statement
     bank_statement = @headers.join(' || ')
-    sort_account_logs
+    sort_transactions
     balance = 0.0
-    @account_logs.each do |account_log|
-      balance += account_log.credit - account_log.debit
+    @transactions.each do |account_log|
+      balance += account_log["credit"] - account_log["debit"]
       bank_statement += generate_line(account_log,
                                  balance)
     end
-    bank_statement
+    print bank_statement
   end
 
-  def make_transaction(account_log)
-    # Accepts a AccountLog instance and adds it to the account_logs list
-    begin
-      date_valid = @time_class.parse(account_log.date)
-    rescue ArgumentError
-      date_valid = false
-    end
-    @account_logs << account_log if date_valid && (account_log.credit.is_a? Numeric) && (account_log.debit.is_a? Numeric)
+  def deposit(amount)
+    # Accepts a AccountLog instance and adds it to the transactions list
+    date = Time.now()
+    if amount.is_a? Numeric
+      @transactions << {"date"=>date, "credit"=>amount, "debit"=>0}
+    end 
+  end
+
+  def withdraw(amount)
+    # Accepts a AccountLog instance and adds it to the transactions list
+    date = Time.now()
+    if amount.is_a? Numeric
+      @transactions << {"date"=>date, "credit"=>0, "debit"=>amount}
+    end 
   end
 
   private
 
-  def sort_account_logs
-    @account_logs.sort_by! { |account_log| @time_class.parse(account_log.date) }
+  def sort_transactions
+    # sorts transactions by date
+    @transactions.sort_by! { |account_log| account_log["date"] }.reverse!
   end
 
   def generate_line(account_log, balance)
-    date = @time_class.parse(account_log.date).strftime('%d/%m/%Y')
-    "\n#{date} || #{'%.2f' % account_log.credit if account_log.credit>0.0 } || #{'%.2f' % account_log.debit if account_log.debit>0.0} || #{'%.2f' % balance}"
+    # generates a line in the print
+    date = account_log["date"].strftime('%d/%m/%Y')
+    "\n#{date} || #{'%.2f' % account_log["credit"] if account_log["credit"]>0.0 } || #{'%.2f' % account_log["debit"] if account_log["debit"]>0.0} || #{'%.2f' % balance}"
   end
 end
